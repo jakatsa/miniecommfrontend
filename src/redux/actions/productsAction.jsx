@@ -2,7 +2,7 @@ import axios from "axios"; // Importing Axios for making HTTP requests
 
 export const fetchProducts = () => async (dispatch) => {
   try {
-    const response = await axios.get("/api/Products/"); // Making a GET request to fetch Products
+    const response = await axios.get("http://127.0.0.1:8080/api/v1/products/"); // Making a GET request to fetch Products
     dispatch({
       type: "SET_PRODUCTS", // Action type to set the fetched Products
       payload: response.data, // The fetched Products data as payload
