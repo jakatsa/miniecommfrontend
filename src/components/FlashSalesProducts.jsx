@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FlashSalesProducts = ({ products }) => {
-  const flashSalesProducts = products.filter((product) => product.isFlashSale);
+  const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [products.length]);
+
+  const handleClick = () => {
+    const product = products[currentIndex];
+    navigate(`/product/${product.id}`);
+  };
   return (
-    <div>
-      <h1>thhis is Flash Sale Products nothing added yet </h1>
+    <div onClick={handleClick}>
+      <h1> Flash Sale Products </h1>
+      {products.length > 0 && (
+        <div>
+          <img
+            key={products[currentIndex].id}
+            src={products[currentIndex].images}
+            alt={products[currentIndex].name}
+            className="w-48 h-48 shadow rounded-lg overflow-hidden border"
+          />
+        </div>
+      )}
     </div>
   );
 };

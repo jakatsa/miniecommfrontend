@@ -23,7 +23,7 @@ const CategoryProducts = ({ category, products }) => {
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url(${product.image})`,
+                  backgroundImage: `url(${product.images})`,
                 }}
               >
                 <div className="flex justify-between">

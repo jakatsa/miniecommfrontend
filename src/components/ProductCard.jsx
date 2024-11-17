@@ -1,17 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const TopSellingProduct = ({ products }) => {
-  const topsellingproduct = Array.isArray(products)
-    ? products.sort((a, b) => b.sales - a.sales).slice(0, 10)
-    : [];
-
+export const ProductCard = ({ products }) => {
   return (
-    <div>
-      <h1>Top Selling Products</h1>
+    <>
+      <h1 className="text-center text-2xl font-bold mb-4">Product Card</h1>
       <div className="flex flex-wrap justify-center gap-4">
-        {topsellingproduct.length > 0 ? (
-          topsellingproduct.map((product) => (
+        {products.length > 0 ? (
+          products.map((product) => (
             <div key={product.id} className="w-80 bg-white shadow rounded">
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
@@ -40,7 +35,7 @@ const TopSellingProduct = ({ products }) => {
                 </div>
                 <div>
                   <span className="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
-                    available: {product.stock}
+                    Available: {product.stock}
                   </span>
                 </div>
               </div>
@@ -48,14 +43,12 @@ const TopSellingProduct = ({ products }) => {
                 <p className="text-gray-400 font-light text-xs text-center">
                   {product.brand}
                 </p>
-                <Link to={`/product/${product.slug}`}>
-                  <h1 className="text-gray-800 text-center mt-1">
-                    {product.name}
-                  </h1>
-                  <p className="text-center text-gray-800 mt-1">
-                    Ksh. {product.price}
-                  </p>
-                </Link>
+                <h1 className="text-gray-800 text-center mt-1">
+                  {product.name}
+                </h1>
+                <p className="text-center text-gray-800 mt-1">
+                  Ksh. {product.price}
+                </p>
                 <div className="inline-flex items-center mt-2">
                   <button className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
                     <svg
@@ -93,6 +86,12 @@ const TopSellingProduct = ({ products }) => {
                     </svg>
                   </button>
                 </div>
+                <Link
+                  to={`/product/${product.slug}`}
+                  className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
+                >
+                  View Details
+                </Link>
                 <button className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center">
                   Add to order
                   <svg
@@ -117,8 +116,6 @@ const TopSellingProduct = ({ products }) => {
           <p>No products available</p>
         )}
       </div>
-    </div>
+    </>
   );
 };
-
-export default TopSellingProduct;
