@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-export const ProductCard = ({ products }) => {
+export const ProductCard = ({ product = [] }) => {
   return (
     <>
       <h1 className="text-center text-2xl font-bold mb-4">Product Card</h1>
       <div className="flex flex-wrap justify-center gap-4">
-        {products.length > 0 ? (
-          products.map((product) => (
+        {product.length > 0 ? (
+          product.map((product) => (
             <div key={product.id} className="w-80 bg-white shadow rounded">
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"

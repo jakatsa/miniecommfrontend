@@ -1,41 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { ProductCard } from "./ProductCard";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSearchResults } from "../redux/actions/searchAction";
 
-export const SearchResultsPage = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get("q");
-  const [searchResults, setSearchResults] = useState([]);
+const SearchResultsPage = ({ searchQuery }) => {
+  const dispatch = useDispatch();
+  const {
+    results = [],
+    loading,
+    error,
+  } = useSelector((state) => state.result || {});
 
   useEffect(() => {
-    const fecthSearchResults = async () => {
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8080/api/v1/products/search?q=${searchQuery}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch search results ");
-        }
-        const data = await response.json();
-        setSearchResults(data);
-      } catch (error) {
-        console.error("Error Fetching Search Results", error);
-      }
-    };
-    fecthSearchResults();
-  }, [searchQuery]);
+    if (searchQuery) {
+      dispatch(fetchSearchResults(searchQuery));
+    }
+  }, [dispatch, searchQuery]);
+
+  if (loading) return <p>Loading search results...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-      <div>SearchResultsPage</div>
-      <div>
-        {searchResults.map((product) => (
-          <div key={product.id}>
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </div>
-    </>
+    <div>
+      <h1>Search Results</h1>
+      {results.length === 0 ? (
+        <p>No results found for "{searchQuery}"</p>
+      ) : (
+        <div>
+          {results.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                border: "1px solid #ddd",
+                margin: "10px",
+                padding: "10px",
+              }}
+            >
+              <h2>{item.name}</h2>
+              <img
+                src={item.images}
+                alt={item.name}
+                style={{ width: "200px", height: "200px" }}
+              />
+              <p>{item.description}</p>
+              <p>Price: ${item.price}</p>
+              <p>Discounted Price: ${item.discount_price}</p>
+              <p>Stock: {item.stock}</p>
+              <p>Vendor: {item.vendor.bio}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
+
+export default SearchResultsPage;
