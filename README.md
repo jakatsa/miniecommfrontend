@@ -56,6 +56,40 @@ EcommFrontend is a React-based e-commerce application designed to facilitate the
 
 ---
 
+## **Project Structure**
+
+```plaintext
+ecommfrontend/
+├── src/
+│   ├── components/       # Reusable UI components
+│   ├── pages/            # Application pages (e.g., Home, Product List)
+│   ├── store/            # Redux store and reducers
+│   ├── utils/            # Utility functions
+│   ├── App.js            # Root component
+│   └── main.js           # Application entry point
+├── public/               # Public assets
+├── tailwind.config.js    # Tailwind CSS configuration
+├── vite.config.js        # Vite configuration
+├── package.json          # Project metadata and dependencies
+├── README.md             # Project documentation # Project metadata and dependencies
+├── README.md
+
+### Available Scripts
+
+npm run dev: Start the development server.
+npm run build: Build the project for production.
+npm run preview: Preview the production build locally.
+npm run lint: Lint the code using ESLint.
+
+### Future Enhancements
+✨ Features Under Development:
+
+A robust shopping cart system.
+Integration with payment gateways ( Mpesa, Paypal).
+Fully functional vendor dashboard.
+Enhanced checkout process with UX improvements.
+```
+
 ## **Installation Guide**
 
 ### Step 1: Clone the Repository
@@ -89,38 +123,4 @@ npm run dev
 http://localhost:5173
 
 
-```
-
-## **Project Structure**
-
-```plaintext
-ecommfrontend/
-├── src/
-│   ├── components/       # Reusable UI components
-│   ├── pages/            # Application pages (e.g., Home, Product List)
-│   ├── store/            # Redux store and reducers
-│   ├── utils/            # Utility functions
-│   ├── App.js            # Root component
-│   └── main.js           # Application entry point
-├── public/               # Public assets
-├── tailwind.config.js    # Tailwind CSS configuration
-├── vite.config.js        # Vite configuration
-├── package.json          # Project metadata and dependencies
-├── README.md             # Project documentation # Project metadata and dependencies
-├── README.md
-
-### Available Scripts
-
-npm run dev: Start the development server.
-npm run build: Build the project for production.
-npm run preview: Preview the production build locally.
-npm run lint: Lint the code using ESLint.
-
-### Future Enhancements
-✨ Features Under Development:
-
-A robust shopping cart system.
-Integration with payment gateways ( Mpesa, Paypal).
-Fully functional vendor dashboard.
-Enhanced checkout process with UX improvements.
 ```
