@@ -85,7 +85,7 @@ const CategoryProducts = ({ category, products }) => {
             </div>
           ))
         ) : (
-          <p>No products available</p>
+          <p>No products availablezz</p>
         )}
       </div>
     </>

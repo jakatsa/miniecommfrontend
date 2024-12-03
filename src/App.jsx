@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { ProductCard } from "./components/ProductCard";
 import SearchResultsPage from "./components/SearchResultsPage";
+import CategoryProducts from "./components/CategoryProducts";
+import { CategoryPage } from "./components/CategoryPage";
 
 // import AboutPage from "./components/AboutPage";
 // import TreatmentsPage from "./components/TreatmentsPage";
@@ -18,8 +20,9 @@ import SearchResultsPage from "./components/SearchResultsPage";
 
 export default function App() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories);
+
   const products = useSelector((state) => state.products);
+  const categories = useSelector((state) => state.categories);
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -187,15 +190,21 @@ export default function App() {
         />
         <Route
           exact
-          path="/products/:slug"
-          element={<ProductDetails products={products} />}
-        />
-        <Route
-          exact
           path="/search"
           element={<SearchResultsPage searchQuery={searchQuery} />}
         />
-        {/* Add other routes here */}
+        <Route
+          exact
+          path="/CategoryProducts"
+          element={
+            <CategoryProducts categories={categories} products={products} />
+          }
+        />
+        <Route
+          exact
+          path="/categories/:slug"
+          element={<CategoryPage />}
+        />
       </Routes>
     </>
   );

@@ -41,7 +41,7 @@ const HomePage = () => {
             <CategoryProducts category={category} products={products} />
           </div>
         ))}
-        <ProductCard products={products} />
+      <ProductCard products={products} />
     </div>
   );
 };
