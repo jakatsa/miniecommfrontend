@@ -12,7 +12,7 @@ export const ProductCard = ({ products = [] }) => {
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
                 style={{
                   backgroundImage: `url(${product.images})`,
-                }}
+                }} 
               >
                 <div className="flex justify-between">
                   <input type="checkbox" />

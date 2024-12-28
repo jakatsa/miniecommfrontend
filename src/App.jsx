@@ -12,6 +12,7 @@ import { ProductCard } from "./components/ProductCard";
 import SearchResultsPage from "./components/SearchResultsPage";
 import CategoryProducts from "./components/CategoryProducts";
 import { CategoryPage } from "./components/CategoryPage";
+import { CartPage } from "./components/CartPage";
 
 // import AboutPage from "./components/AboutPage";
 // import TreatmentsPage from "./components/TreatmentsPage";
@@ -40,7 +41,9 @@ export default function App() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+ {/*  const [cart,setCart]=useState(
+    JSON.parse(localStorage.getItem("cart")|| [])
+  )*/}
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -138,6 +141,13 @@ export default function App() {
                   My Account
                 </Link>
               </li>
+              <li>
+                <Link className="md:p-4 py-3 px-0 block" to="/CartPage ">
+                
+              
+                  Cart({CartPage.length}) {/*track number of items  */}
+                </Link>
+              </li>
 
               <li>
                 <form
@@ -204,6 +214,12 @@ export default function App() {
           exact
           path="/categories/:slug"
           element={<CategoryPage />}
+        />
+         <Route
+          exact
+          path="/CartPage"
+          /*cart={cart}*/
+          element={<CartPage />}
         />
       </Routes>
     </>
