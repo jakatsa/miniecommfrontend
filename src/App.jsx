@@ -41,9 +41,9 @@ export default function App() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
- {/*  const [cart,setCart]=useState(
-    JSON.parse(localStorage.getItem("cart")|| [])
-  )*/}
+   const [cart,setCart]=useState( 
+    (localStorage.getItem("cart")!==null?JSON.parse(localStorage.getItem("cart")):[])
+  )
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -145,7 +145,7 @@ export default function App() {
                 <Link className="md:p-4 py-3 px-0 block" to="/CartPage ">
                 
               
-                  Cart({CartPage.length}) {/*track number of items  */}
+                  Cart({cart.length}) {/*track number of items  */}
                 </Link>
               </li>
 
@@ -218,8 +218,8 @@ export default function App() {
          <Route
           exact
           path="/CartPage"
-          /*cart={cart}*/
-          element={<CartPage />}
+          
+          element={<CartPage cart={cart} setCart={setCart} />}
         />
       </Routes>
     </>

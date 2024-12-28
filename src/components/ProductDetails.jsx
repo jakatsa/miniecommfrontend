@@ -26,7 +26,7 @@ export const ProductDetails = ({ products }) => {
 
     }
     //update cart in loacl storage
-    const updateCart=[...cart,cartItem]
+    const updateCart=cart.concat(cartItem)
     localStorage.setItem("cart",JSON.stringify(updateCart))
     setCart(updateCart)
    

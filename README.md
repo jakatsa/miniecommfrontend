@@ -6,10 +6,10 @@ EcommFrontend is a React-based e-commerce application designed to facilitate the
 
 - **Implemented Features**:
 
-  - Product listing and filtering on the client side.
+  - Product listing,shopping cart and filtering on the client side.
 
 - **Planned Features**:
-  - Vendor-side functionality, shopping cart, checkout, and payment system.
+  - Vendor-side functionality, checkout, and payment system.
 
 ---
 
@@ -20,13 +20,14 @@ EcommFrontend is a React-based e-commerce application designed to facilitate the
 - **Client Side**:
   - View available products.
   - Filter products by categories or attributes.
+  - Add items to a shopping cart.
 
 ### 🚀 Planned Features
 
 - **Vendor Side**:
   - Add, edit, and manage products.
 - **Client Enhancements**:
-  - Add items to a shopping cart.
+  
   - Checkout process with payment integration.
   - User authentication for secure purchases.
 
