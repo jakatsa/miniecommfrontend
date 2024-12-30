@@ -1,6 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+
 export const ProductCard = ({ products = [] }) => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [cart, setCart] = useState([]);
+
+  // Find the product based on the URL parameter (productId)
+  const product = products.find((prod) => prod.id === parseInt(productId));
+
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
+    if (cartData) {
+      setCart(JSON.parse(cartData));
+    }
+  }, []);
+
+  // Handle adding the product to the cart
+  const handleAddToCart = (product) => {
+    if (!product) {
+      console.error("Product is undefined or not available");
+      return;
+    }
+
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1, // You can replace this with dynamic quantity if needed
+    };
+
+    // Update cart in local storage
+    const updatedCart = cart.concat(cartItem);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
+
+    navigate("/CartPage");
+    console.log(updatedCart);
+  };
+
   return (
     <>
       <h1 className="text-center text-2xl font-bold mb-4">Product Card</h1>
@@ -12,7 +51,7 @@ export const ProductCard = ({ products = [] }) => {
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
                 style={{
                   backgroundImage: `url(${product.images})`,
-                }} 
+                }}
               >
                 <div className="flex justify-between">
                   <input type="checkbox" />
@@ -92,8 +131,13 @@ export const ProductCard = ({ products = [] }) => {
                 >
                   View Details
                 </Link>
-                <button className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center">
-                  Add to order
+                
+                {/* Add to cart button */}
+                <button
+                  className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add to ordersss
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 ml-2"

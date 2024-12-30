@@ -1,25 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link,useNavigate } from "react-router-dom";
 
 const CategoryProducts = ({ category, products }) => {
+  const { productId } = useParams();
+
+  // State to manage the cart
+  const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
+  const product = products.find((prod) => prod.id === parseInt(productId));
+
   // Ensure products is an array before filtering
   const categoryProducts = Array.isArray(products)
     ? products.filter((product) => product.category.id === category.id)
     : [];
 
+  // Load cart from localStorage when the component mounts
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
+    if (cartData) {
+      setCart(JSON.parse(cartData));
+    }
+  }, []);
+
+  // Handle adding a product to the cart
+  const handleAddToCart = (product) => {
+    // Check if the product already exists in the cart
+    const existingProductIndex = cart.findIndex((item) => item.id === product.id);
+
+    let updatedCart;
+    if (existingProductIndex > -1) {
+      // If the product exists, update its quantity
+      updatedCart = [...cart];
+      updatedCart[existingProductIndex].quantity += 1;
+    } else {
+      // If the product does not exist, add it to the cart with quantity 1
+      updatedCart = [...cart, { ...product, quantity: 1 }];
+    }
+
+    // Update cart in localStorage and state
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
+  };
+
   return (
     <>
       <h3 className="text-lg font-semibold mb-4">{category.name}</h3>
-      <div
-        id={`category-${category.id}`}
-        className="flex flex-wrap justify-center gap-6"
-      >
+      <div id={`category-${category.id}`} className="flex flex-wrap justify-center gap-6">
         {categoryProducts.length > 0 ? (
           categoryProducts.map((product) => (
-            <div
-              key={product.id}
-              className="w-80 bg-white shadow-lg rounded-lg overflow-hidden"
-            >
+            <div key={product.id} className="w-80 bg-white shadow-lg rounded-lg overflow-hidden">
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
                 style={{
@@ -47,7 +76,7 @@ const CategoryProducts = ({ category, products }) => {
                 </div>
                 <div>
                   <span className="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
-                    available: {product.stock}
+                    Available: {product.stock}
                   </span>
                 </div>
               </div>
@@ -56,15 +85,19 @@ const CategoryProducts = ({ category, products }) => {
                   {category.name}
                 </p>
                 <Link to={`/products/${product.slug}`}>
-                  <h1 className="text-gray-800 text-center mt-1">
-                    {product.name}
-                  </h1>
-                  <p className="text-center text-gray-800 mt-1">
-                    Ksh. {product.price}
-                  </p>
+                  <h1 className="text-gray-800 text-center mt-1">{product.name}</h1>
+                  <p className="text-center text-gray-800 mt-1">Ksh. {product.price}</p>
                 </Link>
-
-                <button className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center">
+                <Link to={`/products/${product.id}`}
+                     className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
+                                >
+                                  View Details
+                                </Link>
+                {/* Add to Cart Button */}
+                <button
+                  className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
+                  onClick={() => handleAddToCart(product)} // Add product to cart
+                >
                   Add to cart
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +118,7 @@ const CategoryProducts = ({ category, products }) => {
             </div>
           ))
         ) : (
-          <p>No products availablezz</p>
+          <p>No products available in this category</p>
         )}
       </div>
     </>

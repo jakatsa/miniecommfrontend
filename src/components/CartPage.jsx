@@ -1,39 +1,48 @@
-import React from 'react'
-import {Link} from "react-router-dom"
+import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 
-export const CartPage = ({cart,setCart}) => {
+export const CartPage = ({ cart, setCart }) => {
 
-  const removeFromCart=(itemToRemove)=>{
-    const updatedCart=cart.filter((item)=>item.id!== itemToRemove.id)
-    localStorage.setItem("cart",JSON.stringify(updatedCart))
-    setCart(updatedCart)
-  }
+  // This useEffect will load the cart from localStorage on component mount
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, [setCart]); // Only runs once when the component mounts
 
-  const handleUpdateQuantity=(item,newQuantity)=>{
-    const updateCart = cart.map((cartItem) => {
+  const removeFromCart = (itemToRemove) => {
+    const updatedCart = cart.filter((item) => item.id !== itemToRemove.id);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
+  };
+
+  const handleUpdateQuantity = (item, newQuantity) => {
+    // Make sure the quantity is a valid number and is at least 1
+    if (newQuantity < 1) return; 
+
+    const updatedCart = cart.map((cartItem) => {
       if (cartItem.id === item.id) {
-        return { ...cartItem, quantity: newQuantity }; // Correctly spreading cartItem and updating the quantity
+        return { ...cartItem, quantity: newQuantity };
       }
       return cartItem;
     });
 
-  localStorage.setItem("cart".JSON.stringify(updateCart))
-  setCart(updateCart)  
-  }
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCart(updatedCart);
+  };
 
-  const calculateTotal=()=>{
-    return cart.reduce((total,item)=>total+item.price*item.quantity,0)
-  }
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
 
   return (
-    <>
     <div>
       <h1>Your Cart</h1>
       {cart.length === 0 ? (
         <p>Your Cart is empty</p>
       ) : (
         <>
-          {/* Wrapped the table and the checkout section in a React.Fragment */}
           <table>
             <thead>
               <tr>
@@ -46,12 +55,12 @@ export const CartPage = ({cart,setCart}) => {
             </thead>
             <tbody>
               {cart.map((item) => (
-                <tr key={item.id}> {/* Added key prop to the row for proper list rendering */}
+                <tr key={item.id}>
                   <td>
                     <Link to={`/product/${item.slug}`}>{item.name}</Link>
                   </td>
                   <td>
-                    ${parseFloat(item.price).toFixed(2)} {/* Convert to number and then format */}
+                    ${parseFloat(item.price).toFixed(2)}
                   </td>
                   <td>
                     <input
@@ -62,7 +71,7 @@ export const CartPage = ({cart,setCart}) => {
                     />
                   </td>
                   <td>
-                  ${(parseFloat(item.price)*item.quantity).toFixed(2)}
+                    ${(parseFloat(item.price) * item.quantity).toFixed(2)}
                   </td>
                   <td>
                     <button onClick={() => removeFromCart(item)}>Remove</button>
@@ -71,7 +80,6 @@ export const CartPage = ({cart,setCart}) => {
               ))}
             </tbody>
           </table>
-          {/* React.Fragment ends here */}
           <div>
             <h2>Total: ${calculateTotal().toFixed(2)}</h2>
             <button>Check Out</button>
@@ -79,7 +87,5 @@ export const CartPage = ({cart,setCart}) => {
         </>
       )}
     </div>
-  </>
-  
-  )
-}
+  );
+};

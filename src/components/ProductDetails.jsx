@@ -15,7 +15,7 @@ export const ProductDetails = ({ products }) => {
       setCart(JSON.parse(cartData))
     }
 
-  },[])
+  },[setCart])
   const handleAddToCart=()=>{
     const cartItem={
       id:product.id,
@@ -33,6 +33,7 @@ export const ProductDetails = ({ products }) => {
     navigate("/CartPage")
     console.log(updateCart)
   }
+  
   const removeFromCart=(itemToRemove)=>{
     const updatedCart=cart.filter((item)=>item.id!== itemToRemove.id)
     localStorage.setItem("cart",JSON.stringify(updateCart))
