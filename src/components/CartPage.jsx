@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 export const CartPage = ({ cart, setCart }) => {
-
+  const navigate=useNavigate();
   // This useEffect will load the cart from localStorage on component mount
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
@@ -35,7 +35,9 @@ export const CartPage = ({ cart, setCart }) => {
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
-
+  const handleCheckOut=()=>{
+    navigate("/CheckOutPage")
+  }
   return (
     <div>
       <h1>Your Cart</h1>
@@ -82,7 +84,9 @@ export const CartPage = ({ cart, setCart }) => {
           </table>
           <div>
             <h2>Total: ${calculateTotal().toFixed(2)}</h2>
-            <button>Check Out</button>
+            
+            <button onClick={handleCheckOut}>Check Out</button>
+            
           </div>
         </>
       )}

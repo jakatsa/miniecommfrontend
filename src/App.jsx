@@ -13,6 +13,9 @@ import SearchResultsPage from "./components/SearchResultsPage";
 import CategoryProducts from "./components/CategoryProducts";
 import { CategoryPage } from "./components/CategoryPage";
 import { CartPage } from "./components/CartPage";
+import {CheckOutPage} from "./components/CheckOutPage";
+import PayPalPaymentPage from "./components/PayPalPaymentPage";
+import MpesaPaymentPage from "./components/MpesaPaymentPage";
 
 // import AboutPage from "./components/AboutPage";
 // import TreatmentsPage from "./components/TreatmentsPage";
@@ -53,7 +56,7 @@ export default function App() {
   const handleSearchSubmit = (event) => {
     event.preventDefault();
     if (searchQuery.trim() === "") return; // Prevent empty searches
-    dispatch(fetchSearchResults(searchQuery));
+    dispatch(fetchSearchResults(searchQuery)); //fecthes search result
     navigate("/search"); // Redirect to the search results page
   };
   return (
@@ -220,6 +223,24 @@ export default function App() {
           path="/CartPage"
           
           element={<CartPage cart={cart} setCart={setCart} />}
+        />
+         <Route
+          exact
+          path="/CheckOutPage"
+          
+          element={<CheckOutPage cart={cart} setCart={setCart} />}
+        />
+        <Route
+          exact
+          path="/mpesa-payment"
+          
+          element={<MpesaPaymentPage/>}
+        />
+         <Route
+          exact
+          path="/paypal-payment"
+          
+          element={<PayPalPaymentPage/>}
         />
       </Routes>
     </>

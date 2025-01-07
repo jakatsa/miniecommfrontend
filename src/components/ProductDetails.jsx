@@ -3,8 +3,9 @@ import React from "react";
 import { useParams, Link,useNavigate } from "react-router-dom";
 
 export const ProductDetails = ({ products }) => {
-  const { productId } = useParams();
-  const product = products.find((prod) => prod.id === parseInt(productId));
+  const { productId } = useParams(); {/** This line extracts the productId parameter from the URL using the useParams hook provided by React Router. */}
+  const product = products.find((prod) => prod.id === parseInt(productId)); {/**This line finds the specific product from the products array that matches the productId from the URL.
+    */}
   const [quantity,setQuantity]=useState(1)
   const [cart,setCart] = useState([])
   const navigate = useNavigate()
