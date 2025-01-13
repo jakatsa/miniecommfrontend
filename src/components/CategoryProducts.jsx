@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link,useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-const CategoryProducts = ({ category, products }) => {
+const CategoryProducts = ({ categories = {}, products = [] }) => {
   const { productId } = useParams();
-
-  // State to manage the cart
-  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
+  
+  const [cart, setCart] = useState([]);
   const product = products.find((prod) => prod.id === parseInt(productId));
 
-  // Ensure products is an array before filtering
   const categoryProducts = Array.isArray(products)
-    ? products.filter((product) => product.category.id === category.id)
+    ? products.filter((product) => product.category?.id === categories?.id)
     : [];
 
-  // Load cart from localStorage when the component mounts
   useEffect(() => {
     const cartData = localStorage.getItem("cart");
     if (cartData) {
@@ -22,38 +19,30 @@ const CategoryProducts = ({ category, products }) => {
     }
   }, []);
 
-  // Handle adding a product to the cart
   const handleAddToCart = (product) => {
-    // Check if the product already exists in the cart
     const existingProductIndex = cart.findIndex((item) => item.id === product.id);
-
-    let updatedCart;
-    if (existingProductIndex > -1) {
-      // If the product exists, update its quantity
-      updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += 1;
-    } else {
-      // If the product does not exist, add it to the cart with quantity 1
-      updatedCart = [...cart, { ...product, quantity: 1 }];
-    }
-
-    // Update cart in localStorage and state
+    const updatedCart =
+      existingProductIndex > -1
+        ? cart.map((item, index) =>
+            index === existingProductIndex ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        : [...cart, { ...product, quantity: 1 }];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
 
   return (
     <>
-      <h3 className="text-lg font-semibold mb-4">{category.name}</h3>
-      <div id={`category-${category.id}`} className="flex flex-wrap justify-center gap-6">
+      <h3 className="text-lg font-semibold mb-4">
+        {categories?.name || "Category Name Unavailable"}
+      </h3>
+      <div id={`category-${categories?.id}`} className="flex flex-wrap justify-center gap-6">
         {categoryProducts.length > 0 ? (
           categoryProducts.map((product) => (
             <div key={product.id} className="w-80 bg-white shadow-lg rounded-lg overflow-hidden">
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${product.images})`,
-                }}
+                style={{ backgroundImage: `url(${product.images})` }}
               >
                 <div className="flex justify-between">
                   <input type="checkbox" />
@@ -82,21 +71,21 @@ const CategoryProducts = ({ category, products }) => {
               </div>
               <div className="p-4 flex flex-col items-center">
                 <p className="text-gray-400 font-light text-xs text-center">
-                  {category.name}
+                  {categories?.name}
                 </p>
                 <Link to={`/products/${product.slug}`}>
                   <h1 className="text-gray-800 text-center mt-1">{product.name}</h1>
                   <p className="text-center text-gray-800 mt-1">Ksh. {product.price}</p>
                 </Link>
-                <Link to={`/products/${product.id}`}
-                     className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
-                                >
-                                  View Details
-                                </Link>
-                {/* Add to Cart Button */}
+                <Link
+                  to={`/products/${product.id}`}
+                  className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
+                >
+                  View Details
+                </Link>
                 <button
                   className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
-                  onClick={() => handleAddToCart(product)} // Add product to cart
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to cart
                   <svg
