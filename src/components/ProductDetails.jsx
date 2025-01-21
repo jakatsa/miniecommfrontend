@@ -47,6 +47,7 @@ export const ProductDetails = ({ products , vendors }) => {
   }
 
   return (
+  
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1>Product Details</h1>
       <div className="p-6 bg-gray-50 min-h-screen">
@@ -148,8 +149,9 @@ export const ProductDetails = ({ products , vendors }) => {
 
   </div>
 </div>
+</div>
 
-    </>
+    
   );
 };
 
