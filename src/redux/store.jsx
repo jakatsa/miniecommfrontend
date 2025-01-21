@@ -3,12 +3,13 @@ import { configureStore } from "@reduxjs/toolkit"; // Import configureStore
 import categoriesReducers from "../reducers/categoriesReducers"; // Import your reducers
 import productsReducers from "../reducers/productsReducers"; // Import your reducers
 import { searchReducer } from "../reducers/searchReducer";
-
+import  vendorReducers from "../reducers/vendorReducers"
 // Combine your reducers into a single root reducer
 const rootReducer = combineReducers({
   categories: categoriesReducers,
   products: productsReducers, // Corrected typo from produucts to products
   result: searchReducer,
+  vendors:vendorReducers,
 });
 console.log(rootReducer);
 // Create the store with configureStore

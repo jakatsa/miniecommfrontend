@@ -4,6 +4,7 @@ import HomePage from "./components/HomePage";
 import { ProductDetails } from "./components/ProductDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "./redux/actions/categoriesAction";
+import { fetchVendors } from "./redux/actions/vendorAction";
 import { fetchSearchResults } from "./redux/actions/searchAction";
 import { fetchProducts } from "./redux/actions/productsAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,10 +28,14 @@ export default function App() {
 
   const products = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
+  const vendors=useSelector((state) => state.vendors);
+
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
+    dispatch(fetchVendors());
+
   }, [dispatch]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -199,12 +204,12 @@ export default function App() {
         <Route
           exact
           path="/products/:productId"
-          element={<ProductDetails products={products} />}
+          element={<ProductDetails products={products} vendors={vendors} />}
         />
         <Route
           exact
           path="/search"
-          element={<SearchResultsPage searchQuery={searchQuery} />}
+          element={<SearchResultsPage searchQuery={searchQuery} vendors={vendors} />}
         />
         <Route
           exact
