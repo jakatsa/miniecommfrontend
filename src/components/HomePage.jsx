@@ -38,10 +38,10 @@ const HomePage = () => {
         categories.map((category) => (
           <div key={category.id}>
             {/* Ensure to use a unique key */}
+
             <CategoryProducts category={category} products={products} />
           </div>
         ))}
-      <ProductCard products={products} />
     </div>
   );
 };
