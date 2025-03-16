@@ -70,7 +70,7 @@ const CategoryProducts = ({ category, products }) => {
                     Add to Cart
                   </button>
                   <Link
-                    to={`/products/${product.slug}`}
+                    to={`/products/${product.id}`}
                     className="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 flex-1 text-center"
                   >
                     View Details

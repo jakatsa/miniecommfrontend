@@ -21,14 +21,14 @@ export const CategoryPage = () => {
       try {
         // Fetch the category object by slug.
         const categoryResponse = await axios.get(
-          `http://127.0.0.1:8080/api/v1/categories/?slug=${slug}`
+          `https://miniecommbackend.onrender.com/api/v1/categories/?slug=${slug}`
         );
         if (categoryResponse.data && categoryResponse.data.length > 0) {
           const currentCategory = categoryResponse.data[0];
           setCategory(currentCategory);
           // Fetch products using the category's id.
           const productsResponse = await axios.get(
-            `http://127.0.0.1:8080/api/v1/products/?category=${currentCategory.id}`
+            `https://miniecommbackend.onrender.com/api/v1/products/?category=${currentCategory.id}`
           );
           setProducts(productsResponse.data);
         }
@@ -89,7 +89,7 @@ export const CategoryPage = () => {
             </div>
             <div className="mt-4 flex space-x-2">
               <Link
-                to={`/products/${product.slug}`}
+                to={`/products/${product.id}`}
                 className="flex-1 py-2 px-4 bg-green-500 text-white text-center rounded hover:bg-green-600 transition-colors duration-300"
               >
                 View Details
