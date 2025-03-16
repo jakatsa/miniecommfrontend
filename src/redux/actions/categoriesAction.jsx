@@ -3,7 +3,7 @@ import axios from "axios"; // Importing Axios for making HTTP requests
 export const fetchCategories = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8080/api/v1/categories/"
+      "https://miniecommbackend.onrender.com/api/v1/categories/"
     ); // Making a GET request to fetch categories
     dispatch({
       type: "SET_CATEGORIES", // Action type to set the fetched categories
