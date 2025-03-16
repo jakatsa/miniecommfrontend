@@ -9,7 +9,6 @@ const FlashSalesProducts = ({ products }) => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [products.length]);
 
@@ -17,16 +16,19 @@ const FlashSalesProducts = ({ products }) => {
     const product = products[currentIndex];
     navigate(`/product/${product.id}`);
   };
+
   return (
-    <div onClick={handleClick}>
-      <h1> Flash Sale Products </h1>
+    <div onClick={handleClick} className="w-full cursor-pointer relative">
+      <h1 className="absolute top-4 left-4 text-white text-2xl z-10">
+        Flash Sale Products
+      </h1>
       {products.length > 0 && (
-        <div>
+        <div className="w-full h-[500px] overflow-hidden">
           <img
             key={products[currentIndex].id}
             src={products[currentIndex].images}
             alt={products[currentIndex].name}
-            className="w-48 h-48 shadow rounded-lg overflow-hidden border"
+            className="w-full h-full object-cover object-center"
           />
         </div>
       )}

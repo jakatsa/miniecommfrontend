@@ -16,20 +16,17 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
-  }, [dispatch]); // Add dispatch to dependencies
-
-  // Log categories to inspect its value
-  console.log(categories);
+  }, [dispatch]);
 
   return (
     <div>
-      <TopSellingProduct products={products} />
       <FlashSalesProducts
         products={products
           .filter((product) => product.is_flash_sale)
           .slice(0, 5)}
       />
-      {/* filtering if product is flash sale  */}
+      <TopSellingProduct products={products} />
+
       <h1>Our Categories </h1>
       <CategoryList categories={categories} />
 
