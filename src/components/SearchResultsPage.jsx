@@ -7,7 +7,11 @@ const SearchResultsPage = ({ searchQuery, vendors }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { results = [], loading, error } = useSelector((state) => state.result || {});
+  const {
+    results = [],
+    loading,
+    error,
+  } = useSelector((state) => state.result || {});
 
   const [cart, setCart] = useState([]);
 
@@ -30,7 +34,7 @@ const SearchResultsPage = ({ searchQuery, vendors }) => {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images,
+      image_url: product.image_url, // Updated to use Cloudinary URL
       quantity: parseInt(quantity, 10),
     };
 
@@ -40,14 +44,19 @@ const SearchResultsPage = ({ searchQuery, vendors }) => {
     navigate("/CartPage");
   };
 
-  if (loading) return <p className="text-center text-gray-600">Loading search results...</p>;
+  if (loading)
+    return (
+      <p className="text-center text-gray-600">Loading search results...</p>
+    );
   if (error) return <p className="text-center text-red-600">Error: {error}</p>;
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Search Results</h1>
       {results.length === 0 ? (
-        <p className="text-center text-gray-600">No results found for "{searchQuery}"</p>
+        <p className="text-center text-gray-600">
+          No results found for "{searchQuery}"
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {results.map((item) => (
@@ -56,19 +65,28 @@ const SearchResultsPage = ({ searchQuery, vendors }) => {
               className="border border-gray-300 rounded-lg shadow-lg overflow-hidden"
             >
               <img
-                src={item.images}
+                src={item.image_url} // Updated from item.images to item.image_url
                 alt={item.name}
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
                 <h2 className="text-xl font-semibold">{item.name}</h2>
                 <p className="text-gray-600">{item.description}</p>
-                <p className="mt-2 text-lg font-semibold">Price: ${item.price}</p>
-                <p className="text-gray-500 line-through">Discounted Price: ${item.discount_price}</p>
+                <p className="mt-2 text-lg font-semibold">
+                  Price: ${item.price}
+                </p>
+                <p className="text-gray-500 line-through">
+                  Discounted Price: ${item.discount_price}
+                </p>
                 <p className="mt-2 text-gray-600">Stock: {item.stock}</p>
-                <p className="mt-1 text-gray-500">Vendor: {vendors[0]?.user?.name || "Unknown Vendor"}</p>
+                <p className="mt-1 text-gray-500">
+                  Vendor: {vendors[0]?.user?.name || "Unknown Vendor"}
+                </p>
                 <div className="mt-4">
-                  <label htmlFor={`quantity-${item.id}`} className="block text-gray-700">
+                  <label
+                    htmlFor={`quantity-${item.id}`}
+                    className="block text-gray-700"
+                  >
                     Quantity:
                   </label>
                   <input

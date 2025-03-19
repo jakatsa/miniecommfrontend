@@ -15,26 +15,22 @@ const TopSellingProduct = ({ products }) => {
     if (cartData) {
       setCart(JSON.parse(cartData));
     }
-  }, []); // Empty dependency array ensures it runs once on mount
+  }, []);
 
   // Handle adding a product to the cart
   const handleAddToCart = (product) => {
-    // Check if the product already exists in the cart
-    const existingProductIndex = cart.findIndex((item) => item.id === product.id);
-
+    const existingProductIndex = cart.findIndex(
+      (item) => item.id === product.id
+    );
     let updatedCart;
     if (existingProductIndex > -1) {
-      // If the product exists, update its quantity
       updatedCart = [...cart];
       updatedCart[existingProductIndex].quantity += 1;
     } else {
-      // If the product does not exist, add it to the cart with quantity 1
       updatedCart = [...cart, { ...product, quantity: 1 }];
     }
-
-    // Update cart in localStorage and state
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCart(updatedCart); // This will trigger a re-render
+    setCart(updatedCart);
   };
 
   return (
@@ -47,7 +43,7 @@ const TopSellingProduct = ({ products }) => {
               <div
                 className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
                 style={{
-                  backgroundImage: `url(${product.images})`,
+                  backgroundImage: `url(${product.image_url})`,
                 }}
               >
                 <div className="flex justify-between">
@@ -80,20 +76,22 @@ const TopSellingProduct = ({ products }) => {
                   {product.brand}
                 </p>
                 <Link to={`/product/${product.slug}`}>
-                  <h1 className="text-gray-800 text-center mt-1">{product.name}</h1>
-                  <p className="text-center text-gray-800 mt-1">Ksh. {product.price}</p>
+                  <h1 className="text-gray-800 text-center mt-1">
+                    {product.name}
+                  </h1>
+                  <p className="text-center text-gray-800 mt-1">
+                    Ksh. {product.price}
+                  </p>
                 </Link>
-                
                 <Link
                   to={`/products/${product.id}`}
                   className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
                 >
                   View Details
                 </Link>
-                {/* Add to Cart Button */}
                 <button
                   className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center"
-                  onClick={() => handleAddToCart(product)} // Add product to cart
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to order
                   <svg

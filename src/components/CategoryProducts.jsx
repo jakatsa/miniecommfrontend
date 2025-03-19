@@ -48,7 +48,7 @@ const CategoryProducts = ({ category, products }) => {
               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
             >
               <img
-                src={product.images}
+                src={product.image_url} // Updated to use Cloudinary URL
                 alt={product.name}
                 className="w-full h-48 object-cover rounded-t-lg"
               />

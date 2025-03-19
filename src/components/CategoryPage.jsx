@@ -71,7 +71,7 @@ export const CategoryPage = () => {
             className="bg-white rounded-lg shadow p-4 flex flex-col"
           >
             <img
-              src={product.images}
+              src={product.image_url} // Updated to use Cloudinary URL
               alt={product.name}
               className="w-full h-48 object-cover rounded"
             />
