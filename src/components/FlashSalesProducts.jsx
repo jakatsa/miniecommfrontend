@@ -26,7 +26,7 @@ const FlashSalesProducts = ({ products }) => {
         <div className="w-full h-[500px] overflow-hidden">
           <img
             key={products[currentIndex].id}
-            src={products[currentIndex].images}
+            src={products[currentIndex].image_url}
             alt={products[currentIndex].name}
             className="w-full h-full object-cover object-center"
           />

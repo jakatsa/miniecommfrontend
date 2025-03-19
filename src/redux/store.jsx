@@ -1,21 +1,21 @@
-import { combineReducers } from "redux"; // You can import combineReducers from redux toolkit as well
-import { configureStore } from "@reduxjs/toolkit"; // Import configureStore
-import categoriesReducers from "../reducers/categoriesReducers"; // Import your reducers
-import productsReducers from "../reducers/productsReducers"; // Import your reducers
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import categoriesReducers from "../reducers/categoriesReducers";
+import productsReducers from "../reducers/productsReducers";
 import { searchReducer } from "../reducers/searchReducer";
-import  vendorReducers from "../reducers/vendorReducers"
-// Combine your reducers into a single root reducer
+import vendorReducers from "../reducers/vendorReducers";
+
 const rootReducer = combineReducers({
   categories: categoriesReducers,
-  products: productsReducers, // Corrected typo from produucts to products
+  products: productsReducers,
   result: searchReducer,
-  vendors:vendorReducers,
+  vendors: vendorReducers,
 });
 console.log(rootReducer);
-// Create the store with configureStore
+
 const store = configureStore({
-  reducer: rootReducer, // Pass the rootReducer here
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(), // Optional, can add custom middleware if needed
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;
