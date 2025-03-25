@@ -1,7 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import { ProductDetails } from "./components/ProductDetails";
+// Lazy load route components
+const HomePage = React.lazy(() => import("./components/HomePage"));
+const ProductDetails = React.lazy(() =>
+  import("./components/ProductDetails").then((module) => ({
+    default: module.ProductDetails,
+  }))
+);
+const SearchResultsPage = React.lazy(() =>
+  import("./components/SearchResultsPage")
+);
+const CategoryProducts = React.lazy(() =>
+  import("./components/CategoryProducts")
+);
+const CategoryPage = React.lazy(() =>
+  import("./components/CategoryPage").then((module) => ({
+    default: module.CategoryPage,
+  }))
+);
+const CartPage = React.lazy(() =>
+  import("./components/CartPage").then((module) => ({
+    default: module.CartPage,
+  }))
+);
+const CheckOutPage = React.lazy(() =>
+  import("./components/CheckOutPage").then((module) => ({
+    default: module.CheckOutPage,
+  }))
+);
+const PayPalPaymentPage = React.lazy(() =>
+  import("./components/PayPalPaymentPage")
+);
+const MpesaPaymentPage = React.lazy(() =>
+  import("./components/MpesaPaymentPage")
+);
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "./redux/actions/categoriesAction";
 import { fetchVendors } from "./redux/actions/vendorAction";
@@ -10,14 +43,6 @@ import { fetchProducts } from "./redux/actions/productsAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { ProductCard } from "./components/ProductCard";
-import SearchResultsPage from "./components/SearchResultsPage";
-import CategoryProducts from "./components/CategoryProducts";
-import { CategoryPage } from "./components/CategoryPage";
-import { CartPage } from "./components/CartPage";
-import {CheckOutPage} from "./components/CheckOutPage";
-import PayPalPaymentPage from "./components/PayPalPaymentPage";
-import MpesaPaymentPage from "./components/MpesaPaymentPage";
-
 // import AboutPage from "./components/AboutPage";
 // import TreatmentsPage from "./components/TreatmentsPage";
 // import BlogPage from "./components/BlogPage";
@@ -28,14 +53,13 @@ export default function App() {
 
   const products = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
-  const vendors=useSelector((state) => state.vendors);
+  const vendors = useSelector((state) => state.vendors);
 
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
     dispatch(fetchVendors());
-
   }, [dispatch]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,9 +73,11 @@ export default function App() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-   const [cart,setCart]=useState( 
-    (localStorage.getItem("cart")!==null?JSON.parse(localStorage.getItem("cart")):[])
-  )
+  const [cart, setCart] = useState(
+    localStorage.getItem("cart") !== null
+      ? JSON.parse(localStorage.getItem("cart"))
+      : []
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -151,8 +177,6 @@ export default function App() {
               </li>
               <li>
                 <Link className="md:p-4 py-3 px-0 block" to="/CartPage ">
-                
-              
                   Cart({cart.length}) {/*track number of items  */}
                 </Link>
               </li>
@@ -196,58 +220,46 @@ export default function App() {
       </header>
 
       {/* navigation bar end */}
-      <Routes>
-        <Route path="/" element={<Navigate to="/HomePage" />} />{" "}
-        {/* Redirect from root to HomePage */}
-        <Route path="/HomePage" element={<HomePage />} />
-        {/* Pass specific product based on productId */}
-        <Route
-          exact
-          path="/products/:productId"
-          element={<ProductDetails products={products} vendors={vendors} />}
-        />
-        <Route
-          exact
-          path="/search"
-          element={<SearchResultsPage searchQuery={searchQuery} vendors={vendors} />}
-        />
-        <Route
-          exact
-          path="/CategoryProducts"
-          element={
-            <CategoryProducts categories={categories} products={products} />
-          }
-        />
-        <Route
-          exact
-          path="/categories/:slug"
-          element={<CategoryPage />}
-        />
-         <Route
-          exact
-          path="/CartPage"
-          
-          element={<CartPage cart={cart} setCart={setCart} />}
-        />
-         <Route
-          exact
-          path="/CheckOutPage"
-          
-          element={<CheckOutPage cart={cart} setCart={setCart} />}
-        />
-        <Route
-          exact
-          path="/mpesa-payment"
-          
-          element={<MpesaPaymentPage/>}
-        />
-         <Route
-          exact
-          path="/paypal-payment"
-          
-          element={<PayPalPaymentPage/>}
-        />
-      </Routes>
+      <Suspense fallback={<div>Loading page...</div>}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/HomePage" />} />{" "}
+          {/* Redirect from root to HomePage */}
+          <Route path="/HomePage" element={<HomePage />} />
+          {/* Pass specific product based on productId */}
+          <Route
+            exact
+            path="/products/:productId"
+            element={<ProductDetails products={products} vendors={vendors} />}
+          />
+          <Route
+            exact
+            path="/search"
+            element={
+              <SearchResultsPage searchQuery={searchQuery} vendors={vendors} />
+            }
+          />
+          <Route
+            exact
+            path="/CategoryProducts"
+            element={
+              <CategoryProducts categories={categories} products={products} />
+            }
+          />
+          <Route exact path="/categories/:slug" element={<CategoryPage />} />
+          <Route
+            exact
+            path="/CartPage"
+            element={<CartPage cart={cart} setCart={setCart} />}
+          />
+          <Route
+            exact
+            path="/CheckOutPage"
+            element={<CheckOutPage cart={cart} setCart={setCart} />}
+          />
+          <Route exact path="/mpesa-payment" element={<MpesaPaymentPage />} />
+          <Route exact path="/paypal-payment" element={<PayPalPaymentPage />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
