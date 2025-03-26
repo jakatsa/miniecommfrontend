@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
-// Lazy load route components
+
 const HomePage = React.lazy(() => import("./components/HomePage"));
 const ProductDetails = React.lazy(() =>
   import("./components/ProductDetails").then((module) => ({
@@ -42,7 +42,7 @@ import { fetchSearchResults } from "./redux/actions/searchAction";
 import { fetchProducts } from "./redux/actions/productsAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { ProductCard } from "./components/ProductCard";
+//import { ProductCard } from "./components/ProductCard";
 // import AboutPage from "./components/AboutPage";
 // import TreatmentsPage from "./components/TreatmentsPage";
 // import BlogPage from "./components/BlogPage";
@@ -92,7 +92,6 @@ export default function App() {
   };
   return (
     <>
-      {/* navigation bar */}
       <header className="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">
         <div className="flex-1 flex justify-between items-center">
           <Link to="/HomePage" className="text-xl">

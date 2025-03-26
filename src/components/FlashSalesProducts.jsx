@@ -6,10 +6,13 @@ const FlashSalesProducts = ({ products }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-    }, 3000);
-    return () => clearInterval(interval);
+    if (products.length > 0) {
+      setCurrentIndex(0); // reset the index when products load
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
   }, [products.length]);
 
   const handleClick = () => {
