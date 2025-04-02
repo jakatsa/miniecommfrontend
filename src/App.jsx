@@ -34,6 +34,7 @@ const PayPalPaymentPage = React.lazy(() =>
 const MpesaPaymentPage = React.lazy(() =>
   import("./components/MpesaPaymentPage")
 );
+const LoadingPage = React.lazy(() => import("./components/LoadingPage"));
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "./redux/actions/categoriesAction";
@@ -86,10 +87,24 @@ export default function App() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    if (searchQuery.trim() === "") return; // Prevent empty searches
-    dispatch(fetchSearchResults(searchQuery)); //fecthes search result
-    navigate("/search"); // Redirect to the search results page
+    if (searchQuery.trim() === "") return;
+    dispatch(fetchSearchResults(searchQuery));
+    navigate("/search");
   };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
   return (
     <>
       <header className="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">

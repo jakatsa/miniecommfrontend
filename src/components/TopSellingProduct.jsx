@@ -4,12 +4,10 @@ import { Link } from "react-router-dom";
 const TopSellingProduct = ({ products }) => {
   const [cart, setCart] = useState([]);
 
-  // Ensure products is an array before sorting
   const topsellingproduct = Array.isArray(products)
     ? products.sort((a, b) => b.sales - a.sales).slice(0, 10)
     : [];
 
-  // Load cart from localStorage when the component mounts
   useEffect(() => {
     const cartData = localStorage.getItem("cart");
     if (cartData) {
@@ -17,7 +15,6 @@ const TopSellingProduct = ({ products }) => {
     }
   }, []);
 
-  // Handle adding a product to the cart
   const handleAddToCart = (product) => {
     const existingProductIndex = cart.findIndex(
       (item) => item.id === product.id
