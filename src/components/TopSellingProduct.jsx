@@ -123,7 +123,7 @@ const TopSellingProduct = ({ products }) => {
             </div>
           ))
         ) : (
-          <p>No products available</p>
+          <p>Loading....</p>
         )}
       </div>
     </div>
