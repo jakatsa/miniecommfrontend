@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 const FlashSalesProducts = ({ products }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true); // Added loader state
 
   useEffect(() => {
     if (products.length > 0) {
-      setCurrentIndex(0); // reset the index when products load
+      setCurrentIndex(0);
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
       }, 3000);
@@ -15,10 +16,22 @@ const FlashSalesProducts = ({ products }) => {
     }
   }, [products.length]);
 
+  // Loader useEffect: Simulate loading delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust delay as needed
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleClick = () => {
     const product = products[currentIndex];
     navigate(`/product/${product.id}`);
   };
+
+  if (loading) {
+    return <div>Loading flash sale products...</div>; // Loader display
+  }
 
   return (
     <div onClick={handleClick} className="w-full cursor-pointer relative">

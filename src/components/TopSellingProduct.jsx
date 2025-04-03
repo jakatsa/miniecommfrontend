@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const TopSellingProduct = ({ products }) => {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loader state
 
   const topsellingproduct = Array.isArray(products)
     ? products.sort((a, b) => b.sales - a.sales).slice(0, 10)
@@ -13,6 +14,14 @@ const TopSellingProduct = ({ products }) => {
     if (cartData) {
       setCart(JSON.parse(cartData));
     }
+  }, []);
+
+  // Loader useEffect: Simulate loading delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust delay as needed
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAddToCart = (product) => {
@@ -29,6 +38,10 @@ const TopSellingProduct = ({ products }) => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
+
+  if (loading) {
+    return <div>Loading top-selling products...</div>; // Loader display
+  }
 
   return (
     <div>

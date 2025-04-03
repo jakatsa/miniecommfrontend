@@ -6,7 +6,6 @@ import TopSellingProduct from "./TopSellingProduct";
 import FlashSalesProducts from "./FlashSalesProducts";
 import CategoryProducts from "./CategoryProducts";
 import CategoryList from "./CategoryList";
-import { ProductCard } from "./ProductCard";
 
 const HomePage = () => {
   const dispatch = useDispatch();
